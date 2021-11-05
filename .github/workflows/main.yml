@@ -6,7 +6,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-20.04
-    #if: github.event_name == 'push'
+    if: github.event_name == 'push'
 
     outputs:
       frida_version: ${{ steps.fridaVersion.outputs.frida_version }}
@@ -119,8 +119,8 @@ jobs:
       - name: build frida for Android
         shell: bash
         run: |
-          git config --global user.name '${{ needs.release.outputs.user_name }}'
-          git config --global user.email '${{ needs.release.outputs.user_email }}'
+          git config --global user.name '${{ secrets.GIT_NAME }}'
+          git config --global user.email '${{ secrets.GIT_MAIL }}'
           git clone --recurse-submodules https://github.com/frida/frida
           source scripts/patch_frida.sh
           export ANDROID_NDK_ROOT=${{ steps.setup-ndk.outputs.ndk-path }}
@@ -424,8 +424,8 @@ jobs:
       - name: build frida for Linux
         shell: bash
         run: |
-          git config --global user.name '${{ needs.release.outputs.user_name }}'
-          git config --global user.email '${{ needs.release.outputs.user_email }}'
+          git config --global user.name '${{ secrets.GIT_NAME }}'
+          git config --global user.email '${{ secrets.GIT_MAIL }}'
           git clone --recurse-submodules https://github.com/frida/frida
           source scripts/patch_frida.sh
           export FRIDA_VERSION=${{ needs.release.outputs.frida_version }}
@@ -726,8 +726,8 @@ jobs:
           npm install -g applesign
       - name: build frida for iOS and macOS
         run: |
-          git config --global user.name '${{ needs.release.outputs.user_name }}'
-          git config --global user.email '${{ needs.release.outputs.user_email }}'
+          git config --global user.name '${{ secrets.GIT_NAME }}'
+          git config --global user.email '${{ secrets.GIT_MAIL }}'
           git clone --recurse-submodules https://github.com/frida/frida
           source scripts/patch_frida.sh
           export FRIDA_VERSION=${{ needs.release.outputs.frida_version }}
@@ -1164,8 +1164,8 @@ jobs:
           msbuild -version
       - name: build frida for Windows
         run: |
-          git config --global user.name '${{ needs.release.outputs.user_name }}'
-          git config --global user.email '${{ needs.release.outputs.user_email }}'
+          git config --global user.name '${{ secrets.GIT_NAME }}'
+          git config --global user.email '${{ secrets.GIT_MAIL }}'
           git clone --recurse-submodules https://github.com/frida/frida
           pwsh .\scripts\patch_windows.ps1
           pwsh .\scripts\build_windows.ps1
